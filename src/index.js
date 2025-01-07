@@ -9,6 +9,19 @@ import connectDB from "./db/index.js";
 
 
 connectDB()
+.then(()=>{
+    app.on("error",(err)=>{
+        console.log("Error : ", err)
+        throw err
+       })
+    app.listen(process.env.PORT || 8000, ()=>{
+        console.log(`server is listening at port : ${process.env.PORT}`)
+    }
+    )
+} )
+.catch((err)=>{
+    console.log("Mongo db connection failed !!", err)
+})
 
 
 
@@ -18,7 +31,7 @@ const app = express()
 
 ;( async ()=>{
   try{
-   mongoose.connect(`${process.env.MONGO_URI} )/${DB_NAME}`)
+    await mongoose.connect(`${process.env.MONGO_URI} )/${DB_NAME}`)
    app.on("error",(err)=>{
     console.log("Error : ", err)
     throw err
